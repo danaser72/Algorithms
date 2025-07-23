@@ -1,0 +1,11 @@
+var fs = require("fs");
+var input = fs.readFileSync(`${__dirname}/dev/stdin`).toString().trim();
+input = input.replaceAll("c=", " ");
+input = input.replaceAll("c-", " ");
+input = input.replaceAll("dz=", " ");
+input = input.replaceAll("d-", " ");
+input = input.replaceAll("lj", " ");
+input = input.replaceAll("nj", " ");
+input = input.replaceAll("s=", " ");
+input = input.replaceAll("z=", " ");
+console.log(input.length);
