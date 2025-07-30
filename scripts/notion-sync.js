@@ -44,6 +44,8 @@ async function getPageContent(pageId) {
   const pages = await fetchAllPages();
   const outputDir = "study";
 
+  console.log(pages)
+  
   for (const page of pages) {
     const props = page.properties;
     const pageTitle = props.Name?.title?.[0]?.plain_text || "제목없음";
