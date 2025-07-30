@@ -52,7 +52,7 @@ async function getPageContent(pageId) {
 
     const content = await getPageContent(page.id);
 
-    fs.mkdirSync(dbDir, { recursive: true });
+    fs.mkdirSync(outputDir, { recursive: true });
     fs.writeFileSync(filePath, matter.stringify(content, {
       title: pageTitle,
       notion_id: page.id,
