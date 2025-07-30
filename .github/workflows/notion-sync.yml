@@ -12,14 +12,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4  # 체크아웃    
     
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v4
         
     - name: Install dependencies  # notionhq 설치
       run: npm install @notionhq/client gray-matter slugify
-
-    - name: Ensure folder exists  # 폴더 생성
-      run: mkdir -p study
 
     - name: Run Notion Sync Script  # Sync 진행
       env:
