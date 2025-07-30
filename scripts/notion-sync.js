@@ -44,7 +44,7 @@ async function getPageContent(pageId) {
   const pages = await fetchAllPages();
   const outputDir = "study";
 
-  console.log(pages)
+  console.log(databaseId)
   
   for (const page of pages) {
     const props = page.properties;
