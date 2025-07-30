@@ -50,7 +50,7 @@ async function getPageContent(pageId) {
     const props = page.properties;
     const pageTitle = props.Name?.title?.[0]?.plain_text || "제목없음";
     const slugTitle = slugify(pageTitle);
-    const filePath = path.join(outputDir, `${slugTitle}.jd`);
+    const filePath = path.join(outputDir, `${slugTitle}.md`);
 
     const content = await getPageContent(page.id);
 
