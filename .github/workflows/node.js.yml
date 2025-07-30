@@ -1,0 +1,36 @@
+name: Sync Notion Pages - 알고리즘 정리
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # 30분마다 수행
+  workflow_dispatch:
+  
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4  # 체크아웃
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies # notionhq 설치
+      run: npm install @notionhq/client gray-matter slugify
+
+    - name: Run Notion Sync Script # Sync 진행
+      env:
+        NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+      run: node scripts/notion-sync.js
+
+    - name: Commit and Push Change # 변경내용 커밋
+      run: |
+        git config user.name "NotionSync"
+        git config user.email "danaser72@gmail.com"
+        git add notion/
+        git diff --cached --quiet || git commit -m "Sync NOtion content"
+        git push
