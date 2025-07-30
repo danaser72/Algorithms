@@ -56,6 +56,6 @@ async function getPageContent(pageId) {
     fs.writeFileSync(filePath, matter.stringify(content, {
       title: pageTitle,
       notion_id: page.id,
-    });
+    }));
   }
 })();
