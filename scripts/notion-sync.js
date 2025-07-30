@@ -42,7 +42,7 @@ async function getPageContent(pageId) {
 
 (async () => {
   const pages = await fetchAllPages();
-  const outputDir = "study";
+  const outputDir = "Notion/study";
 
   for (const page of pages) {
     const props = page.properties;
