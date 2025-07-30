@@ -15,19 +15,22 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
         
-    - name: Install dependencies # notionhq 설치
+    - name: Install dependencies  # notionhq 설치
       run: npm install @notionhq/client gray-matter slugify
 
-    - name: Run Notion Sync Script # Sync 진행
+    - name: Ensure folder exists  # 폴더 생성
+      run: mkdir -p study
+
+    - name: Run Notion Sync Script  # Sync 진행
       env:
         NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
         NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
       run: node scripts/notion-sync.js
 
-    - name: Commit and Push Change # 변경내용 커밋
+    - name: Commit and Push Change  # 변경내용 커밋
       run: |
         git config user.name "NotionSync"
         git config user.email "danaser72@gmail.com"
-        git add notion/
-        git diff --cached --quiet || git commit -m "Sync NOtion content"
+        git add study/
+        git diff --cached --quiet || git commit -m "Sync Notion content"
         git push
