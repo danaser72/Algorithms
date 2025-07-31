@@ -29,9 +29,7 @@ async function fetchAllPages() {
 async function getPageContent(pageId) {
   const mdblocks = await n2m.pageToMarkdown(pageId);
   const mdString = n2m.toMarkdownString(mdblocks);
-  console.log(mdblocks)
-  console.log(mdString)
-  return mdString.parent || "";
+  return mdString.parent.split("\n").join("  \n") || "";
 }
 
 (async () => {
