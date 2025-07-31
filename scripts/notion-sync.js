@@ -1,11 +1,12 @@
 const { Client } = require("@notionhq/client");
 const fs = require("fs");
 const path = require("path");
-const slugify = require("slugify");
+const { NotionToMarkdown } = require("notion-to-md");
 const matter = require("gray-matter");
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const databaseId = process.env.NOTION_DATABASE_ID;
+const n2m = new NotionToMarkdown({ notionClient: notion })
 
 // 노션 페이지 목록 조회
 async function fetchAllPages() {
@@ -18,7 +19,7 @@ async function fetchAllPages() {
       start_cursor: cursor,
     });
     pages.push(...response.results);
-    if(!response.has_more) break;
+    if (!response.has_more) break;
     cursor = response.next_cursor;
   }
   return pages;
@@ -26,31 +27,21 @@ async function fetchAllPages() {
 
 // 노션 페이지 데이터 조회
 async function getPageContent(pageId) {
-  const blocks = [];
-  let cursor;
-  while(true) {
-    const response = await notion.blocks.children.list({
-      block_id: pageId,
-      start_cursor: cursor,
-    });
-    blocks.push(...response.results);
-    if (!response.has_more) break;
-    cursor = response.next_cursor;
-  }
-  return blocks.map(block => block[block.type]?.text?.[0]?.plain_text || "").join("\n");
+  const mdblocks = await n2m.pageToMarkdown(pageId);
+  const mdString = n2m.toMarkdownString(mdblocks);
+  console.log(mdblocks)
+  console.log(mdString)
+  return mdString.parent || "";
 }
 
 (async () => {
   const pages = await fetchAllPages();
   const outputDir = "study";
 
-  console.log(databaseId)
-  
   for (const page of pages) {
     const props = page.properties;
-    const pageTitle = props.Name?.title?.[0]?.plain_text || "제목없음";
-    const slugTitle = slugify(pageTitle);
-    const filePath = path.join(outputDir, `${slugTitle}.md`);
+    const pageTitle = props["이름"]?.title?.[0]?.plain_text || "제목없음";
+    const filePath = path.join(outputDir, `${pageTitle}.md`);
 
     const content = await getPageContent(page.id);
 
