@@ -2,7 +2,7 @@ name: Sync Notion Pages - 알고리즘 정리
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # 30분마다 수행
+    - cron: "0 0 * * *"  # 매일 정시에 수행
   workflow_dispatch:
   
 jobs:
