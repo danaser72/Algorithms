@@ -14,5 +14,5 @@ try {
   const samplePath = _path.join(__dirname, "js", sampleName, "index.js");
   require(samplePath, sampleName);
 } catch (error) {
-  console.error("[Error] Occured error: ", error.message);
+  console.error("[Error] Occured error: ", error);
 }
