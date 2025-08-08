@@ -7,9 +7,9 @@ const input = fs
 const meter = input[1].split(" ").map((x) => parseInt(x));
 const cost = input[2].split(" ").map((x) => parseInt(x));
 let minCost = Number.MAX_SAFE_INTEGER;
-let result = 0;
+let result = 0n;
 for (let i = 0; i < meter.length; i++) {
   minCost = Math.min(minCost, cost[i]);
-  result += minCost * meter[i];
+  result += BigInt(minCost) * BigInt(meter[i]);
 }
-console.log(result)
+console.log(`${result}`)
