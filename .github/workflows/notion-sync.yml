@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-node@v4
         
     - name: Install dependencies  # notionhq notion-to-md gray-matter 설치
-      run: npm install @notionhq/client notion-to-md gray-matter
+      run: npm install @notionhq/client@4.0.2 notion-to-md gray-matter
 
     - name: Run Notion Sync Script  # Sync 진행
       env:
